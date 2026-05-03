@@ -5,7 +5,7 @@ function Home() {
   const [images, setImages] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/images`)
+    fetch(`${import.meta.env.VITE_API_URL}/images`)
       .then(res => res.json())
       .then(data => {
         console.log("Fetched images:", data);

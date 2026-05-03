@@ -5,6 +5,7 @@ const cloudinary = require("./config/cloudinary");
 const Image = require("./models/Image");
 const http = require("http");
 const { Server } = require("socket.io");
+const PORT = process.env.PORT || 5000;
 
 const connectDB = require("./config/db");
 connectDB();
@@ -53,6 +54,6 @@ app.post("/upload", async (req, res) => {
 });
 
 
-server.listen(5000, () => {
-  console.log("Server running on port 5000");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

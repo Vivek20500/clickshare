@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useNavigate } from "react-router-dom";
 
+
 function Camera() {
   const webcamRef = useRef(null);
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Camera() {
   try {
     setLoading(true);
 
-    const res = await fetch("http://localhost:5000/upload", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
