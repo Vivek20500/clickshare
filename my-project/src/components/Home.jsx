@@ -117,7 +117,7 @@ function Home() {
                           </p>
                         </div>
                         {isAdminOfEvent && (
-                          <span className="text-lg">👑</span>
+                          <span className="text-sm text-orange-400">Admin</span>
                         )}
                       </div>
                     </button>
@@ -135,7 +135,7 @@ function Home() {
                 }}
                 className="w-full px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition font-medium text-sm"
               >
-                + Create Event
+                Create Event
               </button>
               <button
                 onClick={() => {
