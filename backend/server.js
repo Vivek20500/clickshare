@@ -27,8 +27,21 @@ app.get("/", (req, res) => {
 });
 app.get("/images", async (req, res) => {
   try {
-    const images = await Image.find().sort({ createdAt: -1 });
-    res.json(images);
+    const limit = parseInt(req.query.limit) || 18;
+    const skip = parseInt(req.query.skip) || 0;
+
+    const images = await Image.find()
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(skip);
+
+    const total = await Image.countDocuments();
+
+    res.json({
+      images,
+      total,
+      hasMore: skip + limit < total,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

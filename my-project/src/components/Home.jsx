@@ -78,14 +78,39 @@ import React, { useState, useEffect } from "react";
 function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalImages, setTotalImages] = useState(0);
+  const imagesPerPage = 18;
+
+  const fetchImages = async (page = 1) => {
+    try {
+      setLoading(true);
+      const skip = (page - 1) * imagesPerPage;
+
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/images?limit=${imagesPerPage}&skip=${skip}`
+      );
+      const data = await res.json();
+
+      setImages(data.images);
+      setTotalImages(data.total);
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error("Error fetching images:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/images`)
-      .then((res) => res.json())
-      .then((data) => {
-        setImages(data);
-      });
+    fetchImages(1);
   }, []);
+
+  const totalPages = Math.ceil(totalImages / imagesPerPage);
+  const hasNextPage = currentPage < totalPages;
+  const hasPrevPage = currentPage > 1;
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -193,44 +218,6 @@ function Home() {
                 </button>
               </div>
             </div>
-
-            {/* MOBILE IMAGE PREVIEW */}
-            {images.length > 0 && (
-              <div className="grid grid-cols-3 gap-3 sm:hidden">
-                {images.slice(0, 3).map((img) => (
-                  <img
-                    key={img._id}
-                    src={img.imageUrl}
-                    className="
-                    w-full h-28
-                    object-cover
-                    rounded-2xl
-                    border border-white/10
-                    "
-                  />
-                ))}
-              </div>
-            )}
-
-            {/* DESKTOP PREVIEW */}
-            {images.length > 0 && (
-              <div className="hidden sm:grid grid-cols-4 gap-4">
-                {images.slice(0, 4).map((img) => (
-                  <img
-                    key={img._id}
-                    src={img.imageUrl}
-                    className="
-                    w-full h-48
-                    object-cover
-                    rounded-2xl
-                    border border-white/10
-                    hover:scale-105
-                    transition duration-300
-                    "
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -244,11 +231,18 @@ function Home() {
           </h2>
 
           <p className="text-gray-400 mt-1 text-sm">
-            {images.length} photos uploaded
+            {totalImages > 0 ? `Page ${currentPage} of ${totalPages} • ${totalImages} photos total` : "No photos yet"}
           </p>
         </div>
 
-        {images.length === 0 ? (
+        {loading ? (
+          <div className="flex items-center justify-center h-52 rounded-3xl border border-dashed border-white/10 bg-white/5">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-gray-400">Loading images...</p>
+            </div>
+          </div>
+        ) : images.length === 0 ? (
           <div className="flex items-center justify-center h-52 rounded-3xl border border-dashed border-white/10 bg-white/5">
             <p className="text-gray-400">
               No images uploaded yet 📂
@@ -281,7 +275,7 @@ function Home() {
             </div>
 
             {/* DESKTOP MASONRY */}
-            <div className="hidden sm:columns-3 lg:columns-4 gap-4 space-y-4">
+            <div className="hidden sm:grid grid-cols-3 lg:grid-cols-4 gap-4">
               {images.map((img) => (
                 <div
                   key={img._id}
@@ -290,14 +284,14 @@ function Home() {
                   overflow-hidden
                   rounded-2xl
                   cursor-pointer
-                  break-inside-avoid
                   "
                   onClick={() => setSelectedImage(img.imageUrl)}
                 >
                   <img
                     src={img.imageUrl}
                     className="
-                    w-full object-cover
+                    w-full h-48
+                    object-cover
                     rounded-2xl
                     transition duration-500
                     group-hover:scale-105
@@ -308,6 +302,55 @@ function Home() {
                 </div>
               ))}
             </div>
+
+            {/* PAGINATION BUTTONS */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-4 mt-12">
+                <button
+                  onClick={() => fetchImages(currentPage - 1)}
+                  disabled={!hasPrevPage}
+                  className="
+                  px-6 py-3
+                  rounded-2xl
+                  border border-blue-500/50
+                  bg-blue-500/10
+                  hover:bg-blue-500/20
+                  disabled:opacity-30
+                  disabled:cursor-not-allowed
+                  text-blue-400
+                  font-semibold
+                  transition
+                  flex items-center gap-2
+                  "
+                >
+                  ← Previous
+                </button>
+
+                <span className="text-gray-400 font-medium px-4">
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <button
+                  onClick={() => fetchImages(currentPage + 1)}
+                  disabled={!hasNextPage}
+                  className="
+                  px-6 py-3
+                  rounded-2xl
+                  border border-blue-500/50
+                  bg-blue-500/10
+                  hover:bg-blue-500/20
+                  disabled:opacity-30
+                  disabled:cursor-not-allowed
+                  text-blue-400
+                  font-semibold
+                  transition
+                  flex items-center gap-2
+                  "
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
