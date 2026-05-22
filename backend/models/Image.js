@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
   eventId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Event",
+    required: true,
   },
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   imageUrl: {
     type: String,

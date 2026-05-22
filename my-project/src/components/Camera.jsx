@@ -153,15 +153,36 @@
 
 // export default Camera;
 
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState, useContext } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function Camera() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { token } = useContext(AuthContext);
 
+  const eventId = searchParams.get("eventId");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Check if user is authenticated
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Login Required</h2>
+          <button
+            onClick={() => navigate("/login")}
+            className="px-6 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 transition"
+          >
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // OPEN NATIVE CAMERA
   const openCamera = () => {
@@ -188,25 +209,31 @@ function Camera() {
     try {
       setLoading(true);
 
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/upload`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            image,
-            eventId: "event123",
-            userId: "user123",
-          }),
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          image,
+          eventId: eventId || "event123",
+        }),
+      });
 
-      await res.json();
+      const data = await res.json();
 
-      navigate("/");
+      if (!res.ok) {
+        throw new Error(data.error || "Upload failed");
+      }
+
+      if (eventId) {
+        navigate(`/event/${eventId}`);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
+      alert(err.message);
       console.error(err);
     } finally {
       setLoading(false);
@@ -215,96 +242,45 @@ function Camera() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-
       {/* TOP BAR */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-black/80 backdrop-blur-md">
-        
-        <button
-          onClick={() => navigate("/")}
-          className="text-2xl"
-        >
+        <button onClick={() => navigate(eventId ? `/event/${eventId}` : "/")} className="text-2xl">
           ✕
         </button>
 
-        <h1 className="text-lg font-semibold tracking-wide">
-          EVENT CAMERA
-        </h1>
+        <h1 className="text-lg font-semibold tracking-wide">EVENT CAMERA</h1>
 
         <div className="w-6" />
       </div>
 
       {/* CONTENT */}
       <div className="flex-1 flex flex-col items-center justify-center px-5">
-
         {!image ? (
           <>
             {/* CAMERA PREVIEW CARD */}
-            <div
-              className="
-              w-full max-w-sm
-              aspect-[3/4]
-              rounded-3xl
-              bg-gradient-to-br from-gray-900 to-gray-800
-              border border-white/10
-              flex flex-col items-center justify-center
-              shadow-2xl
-              "
-            >
-              <div className="text-7xl mb-6">
-                📸
-              </div>
+            <div className="w-full max-w-sm aspect-[3/4] rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 border border-white/10 flex flex-col items-center justify-center shadow-2xl">
+              <div className="text-7xl mb-6">📸</div>
 
-              <h2 className="text-2xl font-bold mb-2">
-                Capture Moment
-              </h2>
+              <h2 className="text-2xl font-bold mb-2">Capture Moment</h2>
 
-              <p className="text-gray-400 text-center px-8">
-                Open your phone camera and instantly upload memories.
-              </p>
+              <p className="text-gray-400 text-center px-8">Open your phone camera and instantly upload memories.</p>
 
               <button
                 onClick={openCamera}
-                className="
-                mt-8
-                px-8 py-4
-                rounded-2xl
-                bg-gradient-to-r from-blue-500 to-cyan-400
-                hover:from-blue-600 hover:to-cyan-500
-                transition
-                font-semibold
-                shadow-[0_0_25px_rgba(59,130,246,0.7)]
-                active:scale-95
-                "
+                className="mt-8 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 transition font-semibold shadow-[0_0_25px_rgba(59,130,246,0.7)] active:scale-95"
               >
                 Open Camera
               </button>
             </div>
 
             {/* HIDDEN INPUT */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              capture
-              onChange={handleImage}
-              className="hidden"
-            />
+            <input ref={fileInputRef} type="file" accept="image/*" capture onChange={handleImage} className="hidden" />
           </>
         ) : (
           <>
             {/* IMAGE PREVIEW */}
             <div className="w-full max-w-md">
-              
-              <img
-                src={image}
-                alt="Captured"
-                className="
-                w-full
-                rounded-3xl
-                border border-white/10
-                shadow-2xl
-                "
-              />
+              <img src={image} alt="Captured" className="w-full rounded-2xl" />
 
               {/* BUTTONS */}
               <div className="flex gap-4 mt-5">
