@@ -133,7 +133,7 @@ function Home() {
                   navigate("/create-event");
                   setShowEventsList(false);
                 }}
-                className="w-full px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition font-medium text-sm"
+                className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 transition text-sm text-white font-medium"
               >
                 Create Event
               </button>
@@ -142,7 +142,7 @@ function Home() {
                   navigate("/join-event");
                   setShowEventsList(false);
                 }}
-                className="w-full px-4 py-2 rounded-lg border border-blue-500/50 bg-blue-500/10 hover:bg-blue-500/20 transition font-medium text-sm"
+                className="w-full px-4 py-2 border border-blue-600/50 hover:bg-blue-600/10 transition text-sm text-blue-400 font-medium"
               >
                 Join Event
               </button>
@@ -162,7 +162,7 @@ function Home() {
       {/* MAIN CONTENT */}
       <div className="flex-1 w-full">
         {/* NAVBAR */}
-        <div className="sticky top-0 z-40 backdrop-blur-xl bg-black/70 border-b border-white/10">
+        <div className="sticky top-0 z-40 bg-black border-b border-white/10">
           <div className="px-4 sm:px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               {/* HAMBURGER - Mobile & Authenticated */}
@@ -181,7 +181,7 @@ function Home() {
                 </h1>
 
                 <p className="text-xs sm:text-sm text-gray-400">
-                  {user ? `Welcome, ${user.name || "User"}` : "Capture & share memories"}
+                  {user ? `Welcome` : "Capture & share memories"}
                 </p>
               </div>
             </div>
@@ -191,7 +191,7 @@ function Home() {
                 <>
                   <button
                     onClick={() => logout()}
-                    className="hidden sm:flex px-4 py-2 rounded-xl border border-white/10 hover:bg-white/10 transition font-medium"
+                    className="hidden sm:flex px-4 py-2 border border-white/20 hover:border-white/40 hover:bg-white/5 transition text-sm"
                   >
                     Logout
                   </button>
@@ -200,13 +200,13 @@ function Home() {
                 <>
                   <button
                     onClick={() => navigate("/login")}
-                    className="hidden sm:flex px-4 py-2 rounded-xl border border-white/10 hover:bg-white/10 transition font-medium"
+                    className="hidden sm:flex px-4 py-2 border border-white/20 hover:border-white/40 hover:bg-white/5 transition text-sm"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => navigate("/register")}
-                    className="hidden sm:flex px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 transition font-medium"
+                    className="hidden sm:flex px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white transition text-sm font-medium"
                   >
                     Sign Up
                   </button>
@@ -218,23 +218,16 @@ function Home() {
 
         {/* HERO SECTION */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-gray-900 to-black p-6 sm:p-10">
-          {/* GLOW */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-purple-500/10 blur-3xl"></div>
-
-          <div className="relative z-10 flex flex-col gap-8">
+        <div className="border border-white/10 bg-white/5 p-8 sm:p-12">
+          <div className="flex flex-col gap-8">
             {/* TEXT */}
             <div className="text-center sm:text-left">
-              <h2 className="text-3xl sm:text-5xl font-bold leading-tight">
-                Capture.
-                <br />
-                Share.
-                <br />
-                Relive.
+              <h2 className="text-3xl sm:text-4xl font-bold leading-tight">
+                Create and share photo galleries with your friends
               </h2>
 
-              <p className="text-gray-300 mt-4 text-sm sm:text-lg max-w-xl mx-auto sm:mx-0">
-                Instantly click photos and create a beautiful live gallery experience for your events and memories.
+              <p className="text-gray-400 mt-3 text-sm max-w-2xl mx-auto sm:mx-0">
+                Upload photos to events and view them all in one place.
               </p>
 
               {/* BUTTONS */}
@@ -243,18 +236,14 @@ function Home() {
                   <>
                     <button
                       onClick={() => navigate("/create-event")}
-                      className="group relative flex items-center justify-center px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white font-semibold text-base transition-all duration-300 shadow-[0_0_25px_rgba(59,130,246,0.7)] active:scale-95 overflow-hidden"
+                      className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium transition"
                     >
-                      <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition duration-1000"></span>
-
-                      <span className="relative z-10 flex items-center gap-2">
-                        ✨ Create Event
-                      </span>
+                      Create Event
                     </button>
 
                     <button
                       onClick={() => navigate("/join-event")}
-                      className="px-6 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 transition"
+                      className="px-6 py-3 border border-white/20 hover:border-white/40 hover:bg-white/5 text-white transition"
                     >
                       Join Event
                     </button>
@@ -263,18 +252,14 @@ function Home() {
                   <>
                     <button
                       onClick={() => navigate("/register")}
-                      className="group relative flex items-center justify-center px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white font-semibold text-base transition-all duration-300 shadow-[0_0_25px_rgba(59,130,246,0.7)] active:scale-95 overflow-hidden"
+                      className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium transition"
                     >
-                      <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition duration-1000"></span>
-
-                      <span className="relative z-10 flex items-center gap-2">
-                        📸 Get Started
-                      </span>
+                      Get Started
                     </button>
 
                     <button
                       onClick={() => navigate("/login")}
-                      className="px-6 py-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 active:scale-95 transition"
+                      className="px-6 py-3 border border-white/20 hover:border-white/40 hover:bg-white/5 text-white transition"
                     >
                       Login
                     </button>
@@ -284,7 +269,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
 
         {/* GALLERY */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
@@ -306,17 +291,17 @@ function Home() {
         ) : !user ? (
           <div className="flex items-center justify-center h-52 rounded-3xl border border-dashed border-white/10 bg-white/5">
             <div className="text-center">
-              <p className="text-gray-400 mb-4">Login or sign up to see your event gallery 📸</p>
+              <p className="text-gray-400 mb-4">Log in to see your event gallery</p>
               <div className="flex gap-3 justify-center">
                 <button
                   onClick={() => navigate("/login")}
-                  className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition font-medium"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition font-medium text-sm"
                 >
                   Login
                 </button>
                 <button
                   onClick={() => navigate("/register")}
-                  className="px-4 py-2 rounded-lg border border-blue-500 hover:bg-blue-500/10 transition font-medium"
+                  className="px-4 py-2 border border-blue-600/50 hover:bg-blue-600/10 transition font-medium text-sm"
                 >
                   Sign Up
                 </button>
@@ -326,10 +311,10 @@ function Home() {
         ) : images.length === 0 ? (
           <div className="flex items-center justify-center h-52 rounded-3xl border border-dashed border-white/10 bg-white/5">
             <div className="text-center">
-              <p className="text-gray-400 mb-4">No images in your events yet 📂</p>
+              <p className="text-gray-400 mb-4">No images in your events yet</p>
               <button
                 onClick={() => navigate("/create-event")}
-                className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition font-medium"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition font-medium text-sm"
               >
                 Create an Event
               </button>
@@ -374,7 +359,7 @@ function Home() {
                 <button
                   onClick={() => fetchImages(currentPage - 1)}
                   disabled={!hasPrevPage}
-                  className="px-6 py-3 rounded-2xl border border-blue-500/50 bg-blue-500/10 hover:bg-blue-500/20 disabled:opacity-30 disabled:cursor-not-allowed text-blue-400 font-semibold transition flex items-center gap-2"
+                  className="px-6 py-3 border border-white/20 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed text-white font-medium transition"
                 >
                   ← Previous
                 </button>
@@ -386,7 +371,7 @@ function Home() {
                 <button
                   onClick={() => fetchImages(currentPage + 1)}
                   disabled={!hasNextPage}
-                  className="px-6 py-3 rounded-2xl border border-blue-500/50 bg-blue-500/10 hover:bg-blue-500/20 disabled:opacity-30 disabled:cursor-not-allowed text-blue-400 font-semibold transition flex items-center gap-2"
+                  className="px-6 py-3 border border-white/20 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed text-white font-medium transition"
                 >
                   Next →
                 </button>
@@ -401,9 +386,9 @@ function Home() {
       {user && (
         <a
           href="/camera"
-          className="sm:hidden fixed bottom-6 right-5 z-50 w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(59,130,246,0.8)] active:scale-90 transition"
+          className="sm:hidden fixed bottom-6 right-5 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-xl transition"
         >
-          📸
+          +
         </a>
       )}
 
@@ -414,11 +399,11 @@ function Home() {
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative w-full flex justify-center">
-            <img src={selectedImage} className="max-w-full max-h-[85vh] rounded-2xl" />
+            <img src={selectedImage} className="max-w-full max-h-[85vh]" />
 
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-3 right-3 w-11 h-11 rounded-full bg-black/50 border border-white/20 text-white text-lg"
+              className="absolute top-3 right-3 w-10 h-10 bg-black/60 border border-white/20 text-white hover:bg-black/80 transition flex items-center justify-center"
             >
               ✕
             </button>

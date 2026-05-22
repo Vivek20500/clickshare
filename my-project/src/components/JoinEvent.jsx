@@ -46,7 +46,7 @@ export default function JoinEvent() {
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-gray-900 to-black p-8">
+        <div className=" border border-white/10 bg-gradient-to-br from-gray-800 to-black p-8">
           <h1 className="text-3xl font-bold mb-2">Join Event</h1>
           <p className="text-gray-400 mb-8">Enter the event code to join</p>
 
@@ -63,8 +63,7 @@ export default function JoinEvent() {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 text-center text-2xl tracking-widest"
-                placeholder="ABC123"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-gray-500 text-center text-2xl tracking-widest"
                 maxLength="6"
               />
             </div>
@@ -72,7 +71,7 @@ export default function JoinEvent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white font-semibold transition disabled:opacity-50"
+              className="w-full py-3 hover:bg-blue-500 bg-blue-700 text-white font-semibold transition disabled:opacity-50"
             >
               {loading ? "Joining..." : "Join Event"}
             </button>
@@ -80,7 +79,7 @@ export default function JoinEvent() {
 
           <button
             onClick={() => navigate("/")}
-            className="w-full mt-4 py-3 rounded-lg border border-white/10 text-gray-400 hover:text-white transition"
+            className="w-full mt-4 py-3 border border-white/10 text-gray-400 hover:text-white transition"
           >
             Cancel
           </button>
