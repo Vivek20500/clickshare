@@ -58,3 +58,13 @@ Whether it's a wedding, college fest, corporate event, birthday party, or meetup
 ```bash
 git clone https://github.com/your-username/ClickShare.git
 cd ClickShare
+
+### Backend Setup
+cd backend
+npm install
+npm start
+
+### Frontend Setup
+cd frontend
+npm install
+npm start
